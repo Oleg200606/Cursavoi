@@ -1,0 +1,177 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Корзина покупок{% endblock %}
+
+{% block main_content %}
+<div class="cart-container">
+    <h1>Корзина покупок</h1>
+    
+    {% if cart.items.count %}
+    <div class="cart-items">
+        <table>
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Сумма</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items.all %}
+                <tr>
+                    <td>
+                        <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'shopapp:update_cart_item' item.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity-input">
+                            <button type="submit" class="update-btn">Обновить</button>
+                        </form>
+                    </td>
+                    <td>{{ item.product.price }} ₽</td>
+                    <td>{{ item.get_total_price }} ₽</td>
+                    <td>
+                        <a href="{% url 'shopapp:remove_from_cart' item.id %}" class="remove-btn">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="total-label">Итого:</td>
+                    <td class="total-price">{{ cart.get_total_price }} ₽</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <div class="cart-actions">
+            <a href="{% url 'shopapp:catalog' %}" class="continue-btn">Продолжить покупки</a>
+            <a href="{% url 'shopapp:checkout' %}" class="checkout-btn">Оформить заказ</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <p>Ваша корзина пуста.</p>
+        <a href="{% url 'shopapp:catalog' %}" class="continue-btn">Начать покупки</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .cart-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .cart-items table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+    }
+    
+    .cart-items th, .cart-items td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .cart-items th {
+        background: #f5f5f5;
+        font-weight: 500;
+    }
+    
+    .quantity-input {
+        width: 60px;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+    }
+    
+    .update-btn {
+        background: #f5f5f5;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .update-btn:hover {
+        background: #e0e0e0;
+    }
+    
+    .remove-btn {
+        color: #dc3545;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid #dc3545;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+    
+    .remove-btn:hover {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .total-label {
+        font-weight: bold;
+        text-align: right;
+    }
+    
+    .total-price {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #ff6b00;
+    }
+    
+    .cart-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .continue-btn, .checkout-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .continue-btn {
+        background: #f5f5f5;
+        color: #333;
+    }
+    
+    .continue-btn:hover {
+        background: #e0e0e0;
+    }
+    
+    .checkout-btn {
+        background: #ff6b00;
+        color: white;
+    }
+    
+    .checkout-btn:hover {
+        background: #e05d00;
+    }
+    
+    .empty-cart {
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .empty-cart p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

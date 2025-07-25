@@ -1,0 +1,86 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Каталог{% endif %}
+{% endblock %}
+
+{% block main_content %}
+<div class="sidebar">
+    <h3>Категории</h3>
+    <ul>
+        <li {% if not category %}class="selected"{% endif %}>
+            <a href="{% url 'shopapp:product_list' %}">Все</a>
+        </li>
+        {% for cat in categories %}
+        <li {% if category.slug == cat.slug %}class="selected"{% endif %}>
+            <a href="{% url 'shopapp:product_list_by_category' cat.slug %}">{{ cat.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="products">
+    <div class="products-header">
+        <h1>{% if category %}{{ category.name }}{% else %}Все товары{% endif %}</h1>
+        {% if perms.shopapp.add_product %}
+        <a href="{% url 'shopapp:product_create' %}" class="add-product-btn">
+            <i class="fas fa-plus"></i> Добавить товар
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            {% if product.is_featured %}
+            <span class="product-badge">Рекомендуем</span>
+            {% endif %}
+            
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/no_image.png{% endif %}" class="product-image">
+            </a>
+            
+            <div class="product-info">
+                <a href="{{ product.get_absolute_url }}" class="product-title">{{ product.name }}</a>
+                <p class="product-category">{{ product.get_category_type_display }}</p>
+                <p class="product-price">{{ product.price }} ₽</p>
+                
+                <div class="product-actions">
+                    {% if perms.shopapp.change_product %}
+                    <a href="{% url 'shopapp:product_edit' product.id %}" class="edit-btn">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    {% endif %}
+                    
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post" class="add-to-cart-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="add-to-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if products.has_other_pages %}
+    <div class="pagination">
+        {% if products.has_previous %}
+            <a href="?page=1">&laquo;</a>
+            <a href="?page={{ products.previous_page_number }}">‹</a>
+        {% endif %}
+        
+        <span class="current">
+            Страница {{ products.number }} из {{ products.paginator.num_pages }}
+        </span>
+        
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">›</a>
+            <a href="?page={{ products.paginator.num_pages }}">&raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

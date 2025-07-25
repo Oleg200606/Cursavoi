@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш отзыв одобрен</title>
+</head>
+<body>
+    <h2>Ваш отзыв одобрен</h2>
+    
+    <p>Ваш отзыв на товар <strong>{{ product.name }}</strong> был одобрен и теперь виден другим пользователям.</p>
+    
+    <div style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Оценка: {{ review.rating }}/5</span>
+            <span>{{ review.created_at|date:"d.m.Y H:i" }}</span>
+        </div>
+        <p>{{ review.text }}</p>
+    </div>
+    
+    <p>Вы можете посмотреть его на <a href="{{ product.get_absolute_url }}">странице товара</a>.</p>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Ваша корзина{% endblock %}
+
+{% block content %}
+<h1>Ваша корзина</h1>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Изображение</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Удалить</th>
+            <th>Цена за шт.</th>
+            <th>Общая цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+        <tr>
+            <td>
+                <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}/static/no_image.png{% endif %}">
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>
+                <form action="{% url 'cart_add' item.product.id %}" method="post">
+                    {% csrf_token %}
+                    {{ item.update_quantity_form.quantity }}
+                    {{ item.update_quantity_form.override }}
+                    <input type="submit" value="Обновить">
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'cart_remove' item.product.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Удалить">
+                </form>
+            </td>
+            <td>{{ item.price }} руб.</td>
+            <td>{{ item.total_price }} руб.</td>
+        </tr>
+        {% endfor %}
+        <tr class="total">
+            <td>Всего</td>
+            <td colspan="4"></td>
+            <td>{{ cart.get_total_price }} руб.</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    <a href="{% url 'shopapp:product_list' %}">Продолжить покупки</a>
+    <a href="#">Оформить заказ</a>
+</p>
+{% endblock %}

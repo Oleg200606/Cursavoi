@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Новый отзыв на модерацию</title>
+</head>
+<body>
+    <h2>Новый отзыв на модерацию</h2>
+    
+    <p>Пользователь {{ review.user.username }} оставил отзыв на товар <strong>{{ product.name }}</strong>.</p>
+    
+    <div style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>Оценка: {{ review.rating }}/5</span>
+            <span>{{ review.created_at|date:"d.m.Y H:i" }}</span>
+        </div>
+        <p>{{ review.text }}</p>
+    </div>
+    
+    <p>Для модерации перейдите в <a href="{{ admin_url }}">панель администратора</a>.</p>
+</body>
+</html>

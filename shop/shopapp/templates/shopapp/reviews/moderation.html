@@ -1,0 +1,124 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Модерация отзывов{% endblock %}
+
+{% block main_content %}
+<div class="reviews-moderation">
+    <h1>Модерация отзывов</h1>
+    
+    {% if pending_reviews %}
+    <div class="pending-reviews">
+        {% for review in pending_reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <a href="{{ review.product.get_absolute_url }}" class="product-link">
+                    {{ review.product.name }}
+                </a>
+                <span class="review-author">{{ review.user.username }}</span>
+                <span class="review-date">{{ review.created_at|date:"d.m.Y H:i" }}</span>
+                <span class="review-rating">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                    {% endfor %}
+                </span>
+            </div>
+            <div class="review-text">{{ review.text }}</div>
+            <div class="review-actions">
+                <form method="post" action="{% url 'shopapp:approve_review' review.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-approve">Одобрить</button>
+                </form>
+                <form method="post" action="{% url 'shopapp:reject_review' review.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-reject">Отклонить</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-reviews">
+        Нет отзывов на модерации
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .reviews-moderation {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+    
+    .pending-reviews {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .review-card {
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .review-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .product-link {
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+    
+    .product-link:hover {
+        text-decoration: underline;
+    }
+    
+    .review-rating {
+        color: #ffc107;
+    }
+    
+    .review-text {
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .review-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .btn-approve, .btn-reject {
+        padding: 0.5rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .btn-approve {
+        background: #4CAF50;
+        color: white;
+    }
+    
+    .btn-reject {
+        background: #f44336;
+        color: white;
+    }
+    
+    .no-reviews {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+</style>
+{% endblock %}

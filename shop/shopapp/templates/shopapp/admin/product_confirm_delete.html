@@ -1,0 +1,67 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Удалить товар | Мастер Спорта{% endblock %}
+
+{% block main_content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="admin-title">Удалить товар</h1>
+        
+        <div class="delete-confirmation">
+            <p>Вы уверены, что хотите удалить товар "{{ product.name }}"?</p>
+            
+            <form method="post" class="delete-form">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <button type="submit" class="delete-button">Удалить</button>
+                    <a href="{{ product.get_absolute_url }}" class="cancel-button">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .delete-confirmation {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .delete-confirmation p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .delete-button {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .delete-button:hover {
+        background: #c82333;
+    }
+    
+    .cancel-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: #ddd;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .cancel-button:hover {
+        background: #ccc;
+    }
+</style>
+{% endblock %}

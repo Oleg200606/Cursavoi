@@ -1,0 +1,384 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block main_content %}
+<div class="product-detail-container">
+    <div class="product-images">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/no_image.png{% endif %}" 
+             class="main-image" alt="{{ product.name }}">
+    </div>
+    
+    <div class="product-info">
+        <h1 class="product-title">{{ product.name }}</h1>
+        
+        <div class="product-meta">
+            <span class="category">
+                Категория: {{ product.category.name }}
+            </span>
+            <span class="type">
+                Тип: {{ product.get_category_type_display }}
+            </span>
+            <span class="availability {% if product.available %}in-stock{% else %}out-of-stock{% endif %}">
+                {% if product.available %}В наличии{% else %}Нет в наличии{% endif %}
+            </span>
+        </div>
+        
+        <div class="product-price-block">
+            <span class="price">{{ product.price }} ₽</span>
+            {% if product.is_featured %}
+            <span class="featured-badge">Рекомендуем</span>
+            {% endif %}
+        </div>
+        
+        <div class="product-actions">
+            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="add-to-cart-form">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="1" max="10" class="quantity-input">
+                <button type="submit" class="add-to-cart-btn">
+                    В корзину
+                </button>
+            </form>
+            
+            <div class="admin-actions">
+                <a href="{% url 'shopapp:catalog' %}" class="back-to-catalog">Вернуться в каталог</a>
+                
+                {% if perms.shopapp.change_product %}
+                <a href="{% url 'shopapp:product_edit' product.id %}" class="edit-btn">
+                    Редактировать
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="product-description">
+            <h3>Описание:</h3>
+            <p>{{ product.description|linebreaks }}</p>
+        </div>
+    </div>
+
+
+    <div class="reviews-section">
+        <h2>Отзывы о товаре</h2>
+        
+        {% if average_rating %}
+        <div class="average-rating">
+            Средняя оценка: 
+            <span class="rating-stars">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= average_rating|floatformat:0 %}
+                        <span class="star filled">★</span>
+                    {% else %}
+                        <span class="star">☆</span>
+                    {% endif %}
+                {% endfor %}
+            </span>
+            ({{ average_rating|floatformat:1 }} из 5)
+        </div>
+        {% endif %}
+        
+        {% if can_review %}
+        <div class="add-review-form">
+            <h3>Оставить отзыв</h3>
+            <form method="post" action="{% url 'shopapp:add_review' product.id %}">
+                {% csrf_token %}
+                {{ review_form.as_p }}
+                <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+            </form>
+        </div>
+        {% elif user.is_authenticated %}
+        <div class="alert alert-info">
+            Вы можете оставить отзыв только после покупки этого товара.
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <a href="{% url 'shopapp:login' %}?next={{ request.path }}">Войдите</a>, чтобы оставить отзыв.
+        </div>
+        {% endif %}
+        
+        <div class="reviews-list">
+            {% for review in reviews %}
+                <div class="review {% if review.user == request.user %}my-review{% endif %}">
+                    <div class="review-header">
+                        <span class="review-author">{{ review.user.username }}</span>
+                        <span class="review-date">{{ review.created_at|date:"d.m.Y H:i" }}</span>
+                        <span class="review-rating">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div class="review-text">{{ review.text }}</div>
+                    
+                    {% if perms.shopapp.can_approve_review %}
+                    <div class="review-reply-form">
+                        <form method="post" action="{% url 'shopapp:add_review_reply' review.id %}">
+                            {% csrf_token %}
+                            <textarea name="reply" rows="2" placeholder="Ответ магазина..."></textarea>
+                            <button type="submit" class="btn btn-sm btn-secondary">Ответить</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    
+                    {% for reply in review.replies.all %}
+                        <div class="review-reply">
+                            <div class="reply-header">
+                                <span class="reply-author">Магазин</span>
+                                <span class="reply-date">{{ reply.created_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                            <div class="reply-text">{{ reply.text }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <div class="no-reviews">
+                    Пока нет отзывов. Будьте первым!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+
+    
+    .product-detail-container {
+        display: flex;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+    
+    .product-images {
+        flex: 1;
+    }
+    
+    .product-images .main-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .product-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .product-title {
+        font-size: 2rem;
+        margin: 0;
+        color: #333;
+    }
+    
+    .product-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .product-price-block {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #e05d00;
+    }
+    
+    .featured-badge {
+        background: #ffc107;
+        color: #333;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .add-to-cart-form {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .quantity-input {
+        width: 60px;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .add-to-cart-btn {
+        background: #e05d00;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .add-to-cart-btn:hover {
+        background: #c04d00;
+    }
+    
+    .admin-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .back-to-catalog {
+        color: #333;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+    
+    .back-to-catalog:hover {
+        background: #f5f5f5;
+    }
+    
+    .edit-btn {
+        color: white;
+        background: #007bff;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+    
+    .edit-btn:hover {
+        background: #0069d9;
+    }
+    
+    .product-description {
+        margin-top: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .product-detail-container {
+            flex-direction: column;
+        }
+    }
+
+
+
+
+
+    .reviews-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+    
+    .average-rating {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+        font-size: 1.5rem;
+    }
+    
+    .add-review-form {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .reviews-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .review {
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .review.my-review {
+        border-left: 4px solid #4CAF50;
+    }
+    
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .review-rating {
+        color: #ffc107;
+        font-size: 1.1rem;
+    }
+    
+    .review-text {
+        line-height: 1.6;
+    }
+    
+    .review-reply-form {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .review-reply-form textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .review-reply {
+        margin-top: 1rem;
+        margin-left: 2rem;
+        padding: 1rem;
+        background: #f5f5f5;
+        border-radius: 4px;
+    }
+    
+    .reply-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .no-reviews {
+        text-align: center;
+        color: #666;
+        padding: 2rem;
+    }
+</style>
+{% endblock %}

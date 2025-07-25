@@ -1,0 +1,187 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}История заказов{% endblock %}
+
+{% block main_content %}
+<div class="order-history-container">
+    <h1>История заказов</h1>
+    
+    {% if orders %}
+    <div class="orders-list">
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header">
+                <div class="order-number">
+                    Заказ №{{ order.order_number }}
+                </div>
+                <div class="order-date">
+                    {{ order.created_at|date:"d.m.Y H:i" }}
+                </div>
+                <div class="order-status status-{{ order.status }}">
+                    {{ order.get_status_display }}
+                </div>
+                <div class="order-total">
+                    {{ order.total }} ₽
+                </div>
+            </div>
+            
+            <div class="order-items-preview">
+                {% for item in order.items.all|slice:":3" %}
+                <div class="order-item">
+                    {{ item.product.name }} × {{ item.quantity }}
+                </div>
+                {% endfor %}
+                {% if order.items.count > 3 %}
+                <div class="more-items">
+                    и ещё {{ order.items.count|add:"-3" }} товар(ов)
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="order-actions">
+                <a href="{% url 'shopapp:order_detail' order.id %}" class="details-btn">Подробнее</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-orders">
+        <p>У вас пока нет заказов.</p>
+        <a href="{% url 'shopapp:catalog' %}" class="shop-btn">Начать покупки</a>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .order-history-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .orders-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .order-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: #f5f5f5;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-number {
+        font-weight: bold;
+    }
+    
+    .order-date {
+        color: #666;
+    }
+    
+    .order-status {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-processing {
+        background: #cce5ff;
+        color: #004085;
+    }
+    
+    .status-shipped {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-delivered {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .order-total {
+        font-weight: bold;
+        color: #ff6b00;
+    }
+    
+    .order-items-preview {
+        padding: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.5rem;
+    }
+    
+    .more-items {
+        color: #666;
+    }
+    
+    .order-actions {
+        padding: 1rem;
+        text-align: right;
+        border-top: 1px solid #eee;
+    }
+    
+    .details-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #ff6b00;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .details-btn:hover {
+        background: #e05d00;
+    }
+    
+    .no-orders {
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .no-orders p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .shop-btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: #ff6b00;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+    
+    .shop-btn:hover {
+        background: #e05d00;
+    }
+</style>
+{% endblock %}

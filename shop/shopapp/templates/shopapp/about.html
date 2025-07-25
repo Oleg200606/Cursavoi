@@ -1,0 +1,584 @@
+{% extends "shopapp/base.html" %}
+
+{% block main_content %}
+<div class="about-page">
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>О КОМПАНИИ МАСТЕР СПОРТА</h1>
+            <p>Мы помогаем спортсменам достигать лучших результатов с 2010 года</p>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Наша история</h2>
+                    <p>Компания "Мастер Спорта" была основана в 2010 году легендарным Арнольдом Шварценеггером совместно с командой профессиональных спортсменов. Мы начали с небольшого магазина в Москве и за 14 лет выросли в крупнейшую сеть по продаже спортивного питания в России.</p>
+                    <p>Наша миссия - предоставлять только качественные и проверенные продукты, которые действительно помогают спортсменам достигать своих целей.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Наш флагманский магазин в Москве">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title">Наши ценности</h2>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-check-circle"></i></div>
+                    <h3>Качество</h3>
+                    <p>Мы работаем только с проверенными производителями и тщательно тестируем всю продукцию</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-ruble-sign"></i></div>
+                    <h3>Доступность</h3>
+                    <p>Предлагаем конкурентные цены и регулярные акции для наших клиентов</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-headset"></i></div>
+                    <h3>Поддержка</h3>
+                    <p>Наши консультанты - профессиональные спортсмены, которые помогут с выбором</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Доставка</h3>
+                    <p>Быстрая и надежная доставка по всей России в кратчайшие сроки</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Наша звездная команда</h2>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://avatars.mds.yandex.net/get-entity_search/1539949/918080333/S600xU_2x" alt="Арнольд Шварценеггер" class="team-photo">
+                    <h3>Арнольд Шварценеггер</h3>
+                    <p class="team-position">Основатель, CEO</p>
+                    <p class="team-bio">7-кратный обладатель титула "Мистер Олимпия", актер и бывший губернатор Калифорнии</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://cdnn21.img.ria.ru/images/07e6/04/04/1781721518_0:0:1080:608_1920x1080_80_0_0_39aa9b89a973947ee880ff140c3c02bb.jpg" alt="Конор Макгрегор" class="team-photo">
+                    <h3>Конор Макгрегор</h3>
+                    <p class="team-position">Главный тренер</p>
+                    <p class="team-bio">Экс-чемпион UFC в двух весовых категориях, автор уникальных тренировочных программ</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_67d06561afefa070c68913cb_67d0658108fe856a2e1bbc60/scale_1200" alt="Доктор Ронда Патрик" class="team-photo">
+                    <h3>Доктор Ронда Патрик</h3>
+                    <p class="team-position">Главный технолог</p>
+                    <p class="team-bio">Биохимик с мировым именем, специалист по долголетию и спортивной нутрициологии</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="store-gallery">
+        <div class="container">
+            <h2 class="section-title">Наши магазины</h2>
+            <div class="gallery-grid">
+                <img src="https://cdn.freelance.ru/download/2503420/img-2413211.jpg" alt="Флагманский магазин в Москве">
+                <img src="https://avatars.mds.yandex.net/get-altay/2809325/2a00000171cb7e02fba5fee9991f6e6ec8ee/XXL_height" alt="Тренировка с нашими тренерами">
+                <img src="https://avatars.mds.yandex.net/i?id=577a4958ce586814b8dc824edcab4a65_l-5264636-images-thumbs&n=13" alt="Наш склад премиум-класса">
+            </div>
+        </div>
+    </section>
+    <!-- Форма обратной связи -->
+<!-- Анимированная форма обратной связи -->
+<section class="animated-contact-form">
+    <div class="container">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Напишите нам</h2>
+                <p>Мы ответим в течение 1 рабочего дня</p>
+            </div>
+            
+            <form action="/submit_contact_form/" method="post" class="animated-form">
+                {% csrf_token %}
+                <div class="form-field">
+                    <input type="text" id="name" name="name" required>
+                    <label for="name">
+                        <span class="label-text">Ваше имя</span>
+                        <span class="label-line"></span>
+                    </label>
+                </div>
+                
+                <div class="form-field">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">
+                        <span class="label-text">Email</span>
+                        <span class="label-line"></span>
+                    </label>
+                </div>
+                
+                <div class="form-field">
+                    <select id="subject" name="subject">
+                        <option value="" selected disabled></option>
+                        <option value="consultation">Консультация по продуктам</option>
+                        <option value="order">Вопрос по заказу</option>
+                        <option value="cooperation">Сотрудничество</option>
+                        <option value="other">Другое</option>
+                    </select>
+                    <label for="subject">
+                        <span class="label-text">Тема обращения</span>
+                        <span class="label-line"></span>
+                    </label>
+                </div>
+                
+                <div class="form-field">
+                    <textarea id="message" name="message" required></textarea>
+                    <label for="message">
+                        <span class="label-text">Ваше сообщение</span>
+                        <span class="label-line"></span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="animated-submit-btn">
+                    <span>Отправить</span>
+                    <div class="submit-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .animated-contact-form {
+        padding: 5rem 1rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    
+    .form-card {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .form-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .form-header h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .form-header p {
+        color: #6c757d;
+    }
+    
+    .animated-form {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .form-field {
+        position: relative;
+    }
+    
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+        width: 100%;
+        padding: 15px 0;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 1rem;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .form-field select {
+        appearance: none;
+        cursor: pointer;
+    }
+    
+    .form-field textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .form-field label {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        color: #6c757d;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .label-line {
+        height: 2px;
+        width: 0;
+        background: var(--primary);
+        transition: all 0.3s ease;
+    }
+    
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+        outline: none;
+        border-bottom-color: transparent;
+    }
+    
+    .form-field input:focus + label .label-text,
+    .form-field input:not(:placeholder-shown) + label .label-text,
+    .form-field select:focus + label .label-text,
+    .form-field select:not([value=""]) + label .label-text,
+    .form-field textarea:focus + label .label-text,
+    .form-field textarea:not(:placeholder-shown) + label .label-text {
+        transform: translateY(-25px);
+        font-size: 0.8rem;
+        color: var(--primary);
+    }
+    
+    .form-field input:focus + label .label-line,
+    .form-field input:not(:placeholder-shown) + label .label-line,
+    .form-field select:focus + label .label-line,
+    .form-field select:not([value=""]) + label .label-line,
+    .form-field textarea:focus + label .label-line,
+    .form-field textarea:not(:placeholder-shown) + label .label-line {
+        width: 100%;
+    }
+    
+    .animated-submit-btn {
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+        margin-top: 1rem;
+    }
+    
+    .animated-submit-btn span {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .submit-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .animated-submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        transition: all 0.4s ease;
+        z-index: 1;
+    }
+    
+    .animated-submit-btn:hover::before {
+        left: 0;
+    }
+    
+    .animated-submit-btn:hover {
+        box-shadow: 0 10px 20px rgba(255, 102, 0, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .form-card {
+            padding: 2rem;
+        }
+    }
+</style>
+
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Готовы начать?</h2>
+            <p>Присоединяйтесь к тысячам довольных клиентов, которые уже добились результатов с нами</p>
+            <a href="{% url 'shopapp:catalog' %}" class="cta-button">Перейти в каталог</a>
+        </div>
+    </section>
+</div>
+
+<style>
+    .about-page .about-hero {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 5rem 1rem;
+        text-align: center;
+        color: white;
+    }
+    
+    .about-section {
+        padding: 4rem 1rem;
+        background-color: white;
+    }
+    
+    .about-content {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+    }
+    
+    .about-text {
+        flex: 1;
+    }
+    
+    .about-text h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .about-text p {
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+        color: var(--dark);
+    }
+    
+    .about-image {
+        flex: 1;
+    }
+    
+    .about-image img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .about-image img:hover {
+        transform: scale(1.02);
+    }
+    
+    .values-section {
+        padding: 4rem 1rem;
+        background-color: var(--light);
+    }
+    
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .value-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s;
+    }
+    
+    .value-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .value-icon {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 1.5rem;
+    }
+    
+    .value-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+    
+    .value-card p {
+        color: var(--gray);
+    }
+    
+    .team-section {
+        padding: 4rem 1rem;
+        background-color: white;
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .team-card {
+        text-align: center;
+        padding: 2rem;
+        background: var(--light);
+        border-radius: 8px;
+        transition: transform 0.3s;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .team-photo {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .team-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+    }
+    
+    .team-position {
+        color: var(--secondary);
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    
+    .team-bio {
+        color: var(--gray);
+        margin-bottom: 1rem;
+    }
+    
+    .social-links {
+        margin-top: 1rem;
+    }
+    
+    .social-links a {
+        color: var(--primary);
+        margin: 0 0.5rem;
+        font-size: 1.2rem;
+        transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+        color: var(--secondary);
+    }
+    
+    .store-gallery {
+        padding: 4rem 1rem;
+        background-color: var(--light);
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .gallery-grid img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s;
+    }
+    
+    .gallery-grid img:hover {
+        transform: scale(1.03);
+    }
+    
+    .cta-section {
+        background-color: var(--primary);
+        color: white;
+        padding: 4rem 1rem;
+        text-align: center;
+    }
+    
+    .cta-section h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .cta-section p {
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .about-content {
+            flex-direction: column;
+        }
+        
+        .about-image {
+            order: -1;
+        }
+        
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

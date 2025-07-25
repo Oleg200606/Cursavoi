@@ -1,0 +1,487 @@
+{% extends "shopapp/base_minimal.html" %}
+
+{% block content %}
+    
+
+
+    <!-- Шапка сайта -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/" class="logo">МАСТЕР <span>СПОРТА</span></a>
+            
+            <nav class="main-nav">
+                <a href="{% url 'shopapp:product_list' %}"><i class="fas fa-home"></i> Главная</a>
+                <a href="{% url 'shopapp:catalog' %}"><i class="fas fa-list"></i> Каталог</a>
+                <a href="{% url 'shopapp:promotions' %}"><i class="fas fa-trophy"></i> Акции</a>
+                <a href="{% url 'shopapp:about' %}"><i class="fas fa-info-circle"></i> О нас</a>
+                <a href="{% url 'shopapp:api_docs' %}"><i class="fas fa-code"></i> API</a>
+                {% if user.is_authenticated and perms.shopapp.can_approve_review %}
+                    <a href="{% url 'shopapp:review_moderation' %}"><i class="fas fa-gavel"></i> Модерация</a>
+                {% endif %}
+            </nav>
+            
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'shopapp:profile' %}"><i class="fas fa-user"></i></a>
+                    <form action="{% url 'shopapp:logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: white; cursor: pointer; font-size: 20px;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'shopapp:login' %}"><i class="fas fa-sign-in-alt"></i> Войти</a>
+                    <a href="{% url 'shopapp:register' %}"><i class="fas fa-user-plus"></i> Регистрация</a>
+                {% endif %}
+                <a href="{% url 'shopapp:cart_view' %}"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+        </div>
+    </header>
+    <main class="main-content">
+        {% block main_content %}
+        
+        {% endblock %}
+    </main>
+
+    
+
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>МАСТЕР СПОРТА</h3>
+                <p>Профессиональное спортивное питание для достижения ваших целей</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'shopapp:catalog' %}?category=protein">Протеины</a></li>
+                    <li><a href="{% url 'shopapp:catalog' %}?category=gainer">Гейнеры</a></li>
+                    <li><a href="{% url 'shopapp:catalog' %}?category=amino">Аминокислоты</a></li>
+                    <li><a href="{% url 'shopapp:catalog' %}?category=creatine">Креатин</a></li>
+                    <li><a href="{% url 'shopapp:catalog' %}?category=vitamin">Витамины</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'shopapp:about' %}">О нас</a></li>
+                    <li><a href="{% url 'shopapp:promotions' %}">Акции</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Возврат и обмен</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> 8 (800) 123-45-67</li>
+                    <li><i class="fas fa-envelope"></i> info@mastersport.ru</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Спортивная, 15</li>
+                    <li><i class="fas fa-clock"></i> Пн-Пт: 9:00-21:00</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2024 Мастер Спорта. Все права защищены.
+        </div>
+    </footer>
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #ff6b00;
+            --accent: #0056b3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #28a745;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Шапка с навигацией */
+        .main-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-nav a:hover {
+            color: var(--secondary);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .user-actions a {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Герой-баннер */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background-color: #e05d00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Преимущества */
+        .benefits {
+            padding: 4rem 1rem;
+            background-color: white;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Популярные товары */
+        .featured {
+            padding: 4rem 1rem;
+            background-color: var(--light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        .products-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .product-category {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin: 1rem 0;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .add-to-cart, .view-details {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart {
+            background-color: var(--secondary);
+            color: white;
+            flex-grow: 1;
+            margin-right: 0.5rem;
+        }
+
+        .add-to-cart:hover {
+            background-color: #e05d00;
+        }
+
+        .view-details {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .view-details:hover {
+            background-color: #333;
+        }
+
+        /* Призыв к действию */
+        .cta-section {
+            background-color: var(--primary);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .cta-section p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Футер */
+        .main-footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+    {% endblock %}

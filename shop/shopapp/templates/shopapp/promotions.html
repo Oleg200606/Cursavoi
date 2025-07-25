@@ -1,0 +1,259 @@
+{% extends "shopapp/base.html" %}
+
+{% block main_content %}
+<div class="promotions-page">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>АКЦИИ И СПЕЦПРЕДЛОЖЕНИЯ</h1>
+            <p>Только лучшие предложения для наших клиентов</p>
+        </div>
+    </section>
+
+    <section class="promotions-section">
+        <div class="container">
+            <h2 class="section-title">Текущие акции</h2>
+            
+            {% if active_promotions %}
+            <div class="promotions-grid">
+                {% for promo in active_promotions %}
+                <div class="promotion-card">
+                    {% if promo.discount %}
+                    <div class="promotion-badge">{{ promo.discount }}</div>
+                    {% endif %}
+                    
+                    <img src="{{ promo.image.url }}" alt="{{ promo.title }}" class="promotion-image">
+                    
+                    <div class="promotion-content">
+                        <h3>{{ promo.title }}</h3>
+                        <p>{{ promo.description }}</p>
+                        
+                        <div class="promotion-date">
+                            {% if promo.end_date %}
+                                До {{ promo.end_date|date:"d.m.Y" }}
+                            {% else %}
+                                Постоянная акция
+                            {% endif %}
+                        </div>
+                        
+                        {% if promo.products.exists %}
+                        <a href="{% url 'shopapp:catalog' %}?promo={{ promo.id }}" class="cta-button">Воспользоваться</a>
+                        {% else %}
+                        <a href="{% url 'shopapp:catalog' %}" class="cta-button">Воспользоваться</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-promotions">
+                <p>В данный момент нет активных акций. Следите за обновлениями!</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if archive_promotions %}
+    <section class="archive-promotions">
+        <div class="container">
+            <h2 class="section-title">Прошедшие акции</h2>
+            
+            <div class="promotions-grid">
+                {% for promo in archive_promotions %}
+                <div class="promotion-card archive">
+                    {% if promo.discount %}
+                    <div class="promotion-badge">{{ promo.discount }}</div>
+                    {% endif %}
+                    
+                    <img src="{{ promo.image.url }}" alt="{{ promo.title }}" class="promotion-image">
+                    
+                    <div class="promotion-content">
+                        <h3>{{ promo.title }}</h3>
+                        <p>{{ promo.description }}</p>
+                        
+                        <div class="promotion-date">
+                            Закончилась {{ promo.end_date|date:"d.m.Y" }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Подпишитесь на рассылку</h2>
+            <p>Узнавайте первыми о новых акциях и специальных предложениях</p>
+            <form class="newsletter-form" method="post" action="{% url 'shopapp:subscribe' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Ваш email" required>
+                <button type="submit" class="cta-button">Подписаться</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+<style>
+    /* Существующие стили оставляем без изменений */
+    
+    .promotion-card.archive {
+        opacity: 0.7;
+        filter: grayscale(30%);
+    }
+    
+    .promotion-card.archive:hover {
+        opacity: 1;
+        filter: grayscale(0%);
+    }
+    
+    .no-promotions {
+        text-align: center;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 2rem;
+    }
+    
+    .archive-promotions {
+        padding: 3rem 1rem;
+        background-color: #f8f9fa;
+    }
+    .promotions-page .hero {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 5rem 1rem;
+        text-align: center;
+        color: white;
+    }
+    
+    .promotions-section {
+        padding: 4rem 1rem;
+        background-color: white;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .promotions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .promotion-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        position: relative;
+        transition: transform 0.3s;
+    }
+    
+    .promotion-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .promotion-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: var(--secondary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 1.2rem;
+        z-index: 2;
+    }
+    
+    .promotion-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .promotion-content {
+        padding: 1.5rem;
+    }
+    
+    .promotion-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+    }
+    
+    .promotion-content p {
+        color: var(--gray);
+        margin-bottom: 1rem;
+    }
+    
+    .promotion-date {
+        font-size: 0.9rem;
+        color: var(--secondary);
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    
+    .newsletter {
+        background-color: var(--light);
+        padding: 4rem 1rem;
+        text-align: center;
+    }
+    
+    .newsletter h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .newsletter p {
+        color: var(--gray);
+        margin-bottom: 2rem;
+    }
+    
+    .newsletter-form {
+        display: flex;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .newsletter-form input {
+        flex-grow: 1;
+        padding: 0.8rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+    }
+    
+    .newsletter-form button {
+        border-radius: 0 4px 4px 0;
+        padding: 0 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .promotions-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .newsletter-form {
+            flex-direction: column;
+        }
+        
+        .newsletter-form input {
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-form button {
+            border-radius: 4px;
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

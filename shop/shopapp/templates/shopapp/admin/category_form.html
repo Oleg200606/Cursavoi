@@ -1,0 +1,106 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}{{ title }} | Мастер Спорта{% endblock %}
+
+{% block main_content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="admin-title">{{ title }}</h1>
+        
+        <form method="post" class="admin-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="id_name">Название категории*</label>
+                    <input type="text" name="name" id="id_name" required class="form-input">
+                </div>
+                
+                <div class="form-field">
+                    <label for="id_description">Описание</label>
+                    <textarea name="description" id="id_description" rows="3" class="form-textarea"></textarea>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="save-button">Сохранить</button>
+                <a href="{% url 'shopapp:catalog' %}" class="cancel-button">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    .admin-section {
+        padding: 2rem 0;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .admin-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        color: #1a1a1a;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .admin-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .form-field {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-field label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .form-input,
+    .form-textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+    
+    .form-textarea {
+        min-height: 100px;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: flex-end;
+    }
+    
+    .save-button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .cancel-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: #f8f9fa;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        border: 1px solid #ddd;
+    }
+</style>
+{% endblock %}

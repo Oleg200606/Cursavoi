@@ -1,0 +1,46 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}API Documentation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">API Documentation</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>API Endpoints</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Permissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/api/products/</td>
+                        <td>GET, POST</td>
+                        <td>List and create products</td>
+                        <td>GET: Anyone, POST: Admin</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Authentication</h2>
+        </div>
+        <div class="card-body">
+            <p>Use Token authentication for protected endpoints.</p>
+            <p>Get your token at: <code>/api-token-auth/</code></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
